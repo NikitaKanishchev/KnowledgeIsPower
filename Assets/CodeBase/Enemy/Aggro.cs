@@ -26,7 +26,7 @@ namespace CodeBase.Enemy
             if (!_hasAggroTarget)
             {
                 _hasAggroTarget = true;
-                
+
                 StopAggroCoroutine();
 
                 SwitchFollowOn();
