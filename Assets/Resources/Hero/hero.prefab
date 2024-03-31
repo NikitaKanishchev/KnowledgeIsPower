@@ -1321,6 +1321,8 @@ GameObject:
   - component: {fileID: 883581645079525337}
   - component: {fileID: 4436092145739102212}
   - component: {fileID: 8239204651089706644}
+  - component: {fileID: -6745079460816192125}
+  - component: {fileID: -998884022497939839}
   m_Layer: 12
   m_Name: hero
   m_TagString: Player
@@ -1442,6 +1444,35 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   movementSpeed: 5
+--- !u!114 &-6745079460816192125
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 176288}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7c70df62ebdb4499882b165b29d1ce1b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Animator: {fileID: 1941000699}
+--- !u!114 &-998884022497939839
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 176288}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2d6b5d5514964c418ad5c293834e368f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Health: {fileID: -6745079460816192125}
+  Move: {fileID: 8239204651089706644}
+  Animator: {fileID: 1941000699}
+  DeathFx: {fileID: 100006, guid: 2a474af3f4c27be4e9bdce39cfe4315d, type: 3}
 --- !u!1 &178646
 GameObject:
   m_ObjectHideFlags: 0
