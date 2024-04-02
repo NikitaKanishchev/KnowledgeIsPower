@@ -3,7 +3,7 @@ using UnityEngine.UI;
 
 namespace CodeBase.UI
 {
-    public class HPBar : MonoBehaviour
+    public class HpBar : MonoBehaviour
     {
         public Image ImageCurrent;
 

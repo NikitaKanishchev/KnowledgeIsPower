@@ -2,6 +2,7 @@
 using CodeBase.Hero;
 using CodeBase.Infrastructure.Factory;
 using CodeBase.Infrastructure.Services;
+using CodeBase.Logic;
 using UnityEngine;
 
 namespace CodeBase.Enemy
@@ -10,7 +11,7 @@ namespace CodeBase.Enemy
     public class Attack : MonoBehaviour
     {
         public EnemyAnimator Animator;
-        
+
         public float AttackCooldown = 3f;
         public float Cleavage = 0.5f;
         public float EffectiveDistance = 0.5f;
@@ -30,7 +31,7 @@ namespace CodeBase.Enemy
             _factory = AllServices.Cantainer.Single<IGameFactory>();
 
             _layerMask = 1 << LayerMask.NameToLayer("Player");
-            
+
             _factory.HeroCreated += OnHeroCreated;
         }
 
@@ -46,15 +47,15 @@ namespace CodeBase.Enemy
         {
             if (Hit(out Collider hit))
             {
-                PhysicsDebug.DrawDebug(StartPoint(),Cleavage, 1);
+                PhysicsDebug.DrawDebug(StartPoint(), Cleavage, 1);
                 hit.transform.GetComponent<HeroHealth>().TakeDamage(Damage);
             }
         }
 
-        public void EnableAtack() => 
+        public void EnableAtack() =>
             _attackIsActive = true;
 
-        public void DisableAttack() => 
+        public void DisableAttack() =>
             _attackIsActive = false;
 
         private bool Hit(out Collider hit)
@@ -68,7 +69,8 @@ namespace CodeBase.Enemy
 
         private Vector3 StartPoint()
         {
-            return new Vector3(transform.position.x, transform.position.y + 0.5f, transform.position.z) + transform.forward*EffectiveDistance;
+            return new Vector3(transform.position.x, transform.position.y + 0.5f, transform.position.z) +
+                   transform.forward * EffectiveDistance;
         }
 
         public void OnAttackEnded()

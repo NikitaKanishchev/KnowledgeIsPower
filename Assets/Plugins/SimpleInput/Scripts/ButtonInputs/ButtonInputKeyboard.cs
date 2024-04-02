@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace SimpleInputNamespace
+namespace Plugins.SimpleInput.Scripts.ButtonInputs
 {
 	public class ButtonInputKeyboard : MonoBehaviour
 	{
@@ -9,18 +9,18 @@ namespace SimpleInputNamespace
 		private KeyCode key;
 #pragma warning restore 0649
 
-		public SimpleInput.ButtonInput button = new SimpleInput.ButtonInput();
+		public global::SimpleInput.ButtonInput button = new global::SimpleInput.ButtonInput();
 
 		private void OnEnable()
 		{
 			button.StartTracking();
-			SimpleInput.OnUpdate += OnUpdate;
+			global::SimpleInput.OnUpdate += OnUpdate;
 		}
 
 		private void OnDisable()
 		{
 			button.StopTracking();
-			SimpleInput.OnUpdate -= OnUpdate;
+			global::SimpleInput.OnUpdate -= OnUpdate;
 		}
 
 		private void OnUpdate()

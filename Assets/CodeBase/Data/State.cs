@@ -8,6 +8,7 @@ namespace CodeBase.Data
         public float CurrentHP;
         public float MaxHP;
 
-        public void ResetHp() => CurrentHP = MaxHP;
+        public void ResetHp() =>
+            CurrentHP = MaxHP;
     }
 }

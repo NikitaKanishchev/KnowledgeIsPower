@@ -2,11 +2,11 @@
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-namespace SimpleInputNamespace
+namespace Plugins.SimpleInput.Scripts.ButtonInputs
 {
 	public class ButtonInputUI : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
 	{
-		public SimpleInput.ButtonInput button = new SimpleInput.ButtonInput();
+		public global::SimpleInput.ButtonInput button = new global::SimpleInput.ButtonInput();
 
 		private void Awake()
 		{

@@ -1,12 +1,12 @@
 fileFormatVersion: 2
-guid: e0b4024fa63c4039b3ed513573f9f84e
+guid: 3a7734a177994ee09afddf38c42a64ac
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
   defaultReferences:
+  - HeroAnimator: {fileID: 1941000699, guid: 181862a89f60d7a459002f9870860ad4, type: 3}
   - CharacterController: {fileID: 883581645079525337, guid: 181862a89f60d7a459002f9870860ad4,
       type: 3}
-  - Animator: {fileID: 9588594, guid: 181862a89f60d7a459002f9870860ad4, type: 3}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

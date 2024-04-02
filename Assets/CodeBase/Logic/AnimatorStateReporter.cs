@@ -12,7 +12,7 @@ namespace CodeBase.Logic
       FindReader(animator);
       
       _stateReader.EnteredState(stateInfo.shortNameHash);
-     
+          
     }
 
     public override void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)

@@ -1318,11 +1318,13 @@ GameObject:
   - component: {fileID: 9588594}
   - component: {fileID: 1941000699}
   - component: {fileID: 4866840700987840853}
+  - component: {fileID: 7141369179439236742}
   - component: {fileID: 883581645079525337}
   - component: {fileID: 4436092145739102212}
   - component: {fileID: 8239204651089706644}
   - component: {fileID: -6745079460816192125}
   - component: {fileID: -998884022497939839}
+  - component: {fileID: 1809173705593906659}
   m_Layer: 12
   m_Name: hero
   m_TagString: Player
@@ -1382,8 +1384,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e0b4024fa63c4039b3ed513573f9f84e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Animator: {fileID: 9588594}
   CharacterController: {fileID: 883581645079525337}
+  Animator: {fileID: 9588594}
 --- !u!54 &4866840700987840853
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -1400,6 +1402,22 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!208 &7141369179439236742
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 176288}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 0.5, y: 0.5, z: 0.5}
+  m_MoveThreshold: 0.1
+  m_Carve: 0
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0, y: 0, z: 0}
+  m_TimeToStationary: 0.5
 --- !u!143 &883581645079525337
 CharacterController:
   m_ObjectHideFlags: 0
@@ -1426,7 +1444,7 @@ BoxCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 176288}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 2, y: 2, z: 2}
@@ -1471,8 +1489,23 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Health: {fileID: -6745079460816192125}
   Move: {fileID: 8239204651089706644}
+  Attack: {fileID: 1809173705593906659}
   Animator: {fileID: 1941000699}
   DeathFx: {fileID: 100006, guid: 2a474af3f4c27be4e9bdce39cfe4315d, type: 3}
+--- !u!114 &1809173705593906659
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 176288}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3a7734a177994ee09afddf38c42a64ac, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  HeroAnimator: {fileID: 1941000699}
+  CharacterController: {fileID: 883581645079525337}
 --- !u!1 &178646
 GameObject:
   m_ObjectHideFlags: 0

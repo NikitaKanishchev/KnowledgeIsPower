@@ -6,6 +6,10 @@ namespace CodeBase.Hero
 {
   public class HeroAnimator : MonoBehaviour, IAnimationStateReader
   {
+    [SerializeField] private CharacterController CharacterController;
+    
+    [SerializeField] public Animator Animator;
+
     private static readonly int MoveHash = Animator.StringToHash("Walking");
     private static readonly int AttackHash = Animator.StringToHash("AttackNormal");
     private static readonly int HitHash = Animator.StringToHash("Hit");
@@ -16,29 +20,35 @@ namespace CodeBase.Hero
     private readonly int _attackStateHash = Animator.StringToHash("Attack Normal");
     private readonly int _walkingStateHash = Animator.StringToHash("Run");
     private readonly int _deathStateHash = Animator.StringToHash("Die");
-    
+
     public event Action<AnimatorState> StateEntered;
     public event Action<AnimatorState> StateExited;
-   
+
     public AnimatorState State { get; private set; }
-    
-    public Animator Animator;
-    public CharacterController CharacterController;
+
+
+    public bool IsAttacking => State == AnimatorState.Attack;
+
     private void Update()
     {
       Animator.SetFloat(MoveHash, CharacterController.velocity.magnitude,0.1f,Time.deltaTime);
     }
 
-    public bool IsAttacking => State == AnimatorState.Attack;
+
+    public void PlayHit() => 
+      Animator.SetTrigger(HitHash);
     
+    public void PlayAttack()
+    {
+      Animator.SetTrigger(AttackHash);
+    }
 
-    public void PlayHit() => Animator.SetTrigger(HitHash);
-    
-    public void PlayAttack() => Animator.SetTrigger(AttackHash);
 
-    public void PlayDeath() =>  Animator.SetTrigger(DieHash);
+    public void PlayDeath() =>  
+      Animator.SetTrigger(DieHash);
 
-    public void ResetToIdle() => Animator.Play(_idleStateHash, -1);
+    public void ResetToIdle() =>
+      Animator.Play(_idleStateHash, -1);
     
     public void EnteredState(int stateHash)
     {
