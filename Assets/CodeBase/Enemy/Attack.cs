@@ -1,8 +1,5 @@
 ﻿using System.Linq;
 using CodeBase.Hero;
-using CodeBase.Infrastructure.Factory;
-using CodeBase.Infrastructure.Services;
-using CodeBase.Logic;
 using UnityEngine;
 
 namespace CodeBase.Enemy
@@ -11,28 +8,25 @@ namespace CodeBase.Enemy
     public class Attack : MonoBehaviour
     {
         public EnemyAnimator Animator;
-
         public float AttackCooldown = 3f;
-        public float Cleavage = 0.5f;
-        public float EffectiveDistance = 0.5f;
-        public float Damage = 10f;
-
-        private IGameFactory _factory;
+        public float Cleavage { get; set; }
+        public float EffectiveDistance { get; set; }
+        public float Damage = 10;
         private Transform _heroTransform;
+
         private float _attackCooldown;
         private bool _isAttacking;
         private int _layerMask;
+        private bool _attackIsActive;
         private Collider[] _hits = new Collider[1];
 
-        private bool _attackIsActive;
+
+        public void Construct(Transform heroTransform) => 
+            _heroTransform = heroTransform;
 
         private void Awake()
         {
-            _factory = AllServices.Cantainer.Single<IGameFactory>();
-
             _layerMask = 1 << LayerMask.NameToLayer("Player");
-
-            _factory.HeroCreated += OnHeroCreated;
         }
 
         private void Update()
@@ -98,8 +92,5 @@ namespace CodeBase.Enemy
 
         private bool CooldownIsUp() =>
             _attackCooldown <= 0;
-
-        private void OnHeroCreated() =>
-            _heroTransform = _factory.HeroGameObject.transform;
     }
 }

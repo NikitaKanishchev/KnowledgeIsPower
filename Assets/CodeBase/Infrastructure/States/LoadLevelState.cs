@@ -2,37 +2,45 @@
 using CodeBase.Hero;
 using CodeBase.Infrastructure.Factory;
 using CodeBase.Infrastructure.Services.PersistentProgress;
+using CodeBase.Infrastructure.Services.StaticData;
 using CodeBase.Logic;
-using CodeBase.UI;
+using CodeBase.StaticData;
+using CodeBase.UI.Elements;
+using CodeBase.UI.Services.Factory;
 using UnityEngine;
+using UnityEngine.SceneManagement;
+
 
 namespace CodeBase.Infrastructure.States
 {
     public class LoadLevelState : IPayloadedState<string>
     {
-        private const string InitialPointTag = "InitialPoint";
-
         private readonly GameStateMachine _stateMachine;
         private readonly SceneLoader _sceneLoader;
         private readonly LoadingCurtain _curtain;
         private readonly IGameFactory _gameFactory;
         private readonly IPersistentProgressService _progressService;
+        private readonly IStaticDataService _staticData;
+        private readonly IUIFactory _uiFactory;
 
         public LoadLevelState(GameStateMachine stateMachine, SceneLoader sceneLoader,
-            LoadingCurtain curtain, IGameFactory gameFactory, IPersistentProgressService progressService)
+            LoadingCurtain curtain, IGameFactory gameFactory, IPersistentProgressService progressService,
+            IStaticDataService staticData , IUIFactory uiFactory)
         {
             _stateMachine = stateMachine;
             _sceneLoader = sceneLoader;
             _curtain = curtain;
             _gameFactory = gameFactory;
             _progressService = progressService;
+            _staticData = staticData;
+            _uiFactory = uiFactory;
         }
 
         public void Enter(string sceneName)
         {
             _curtain.Show();
             _gameFactory.CleanUp();
-            _sceneLoader.Load(sceneName, OnLoaded);
+            _sceneLoader.Load(sceneName, onLoaded: OnLoaded);
         }
 
         public void Exit() =>
@@ -40,6 +48,7 @@ namespace CodeBase.Infrastructure.States
 
         private void OnLoaded()
         {
+            InitUIRoot();
             InitGameWorld();
             InformProgressReaders();
 
@@ -52,22 +61,41 @@ namespace CodeBase.Infrastructure.States
                 progressReader.LoadProgress(_progressService.Progress);
         }
 
+        private void InitUIRoot() => 
+            _uiFactory.CreateUIRoot();
+
         private void InitGameWorld()
         {
-            GameObject hero = _gameFactory.CreateHero(at: GameObject.FindWithTag(InitialPointTag));
+            LevelStaticData levelData = LevelStaticData();
+
+            InitSpawners(levelData);
             
+            GameObject hero = InitHero(levelData);
 
             InitHud(hero);
+
             CameraFollow(hero);
         }
 
+        private void InitSpawners(LevelStaticData levelData)
+        {
+            foreach(EnemySpawnerData spawnerData in levelData.EnemySpawners)
+                _gameFactory.CreateSpawner(spawnerData.Id, spawnerData.Position, spawnerData.MonsterTypeId);
+        }
+
+        private GameObject InitHero(LevelStaticData levelData) => 
+            _gameFactory.CreateHero(levelData.InitialHeroPosition);
+
         private void InitHud(GameObject hero)
         {
-           GameObject hud = _gameFactory.CreateHud();
-           
-           hud.GetComponentInChildren<ActorUI>()
-               .Construct(hero.GetComponent<HeroHealth>());
+            GameObject hud = _gameFactory.CreateHud();
+
+            hud.GetComponentInChildren<ActorUI>()
+                .Construct(hero.GetComponent<HeroHealth>());
         }
+
+        private LevelStaticData LevelStaticData() => 
+            _staticData.ForLevel(SceneManager.GetActiveScene().name);
 
         private static void CameraFollow(GameObject hero)
         {

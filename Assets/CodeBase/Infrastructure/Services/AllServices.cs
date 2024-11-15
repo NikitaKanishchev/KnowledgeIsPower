@@ -1,4 +1,6 @@
-﻿namespace CodeBase.Infrastructure.Services
+﻿using CodeBase.Services.Input;
+
+namespace CodeBase.Infrastructure.Services
 {
     public class AllServices
     {

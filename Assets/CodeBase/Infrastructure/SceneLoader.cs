@@ -15,7 +15,7 @@ namespace CodeBase.Infrastructure
         public void Load(string name, Action onLoaded = null) => 
             _corotineRunner.StartCoroutine(LoadScene(name, onLoaded));
 
-        private IEnumerator LoadScene(string nextScene, Action onLoaded)
+        public IEnumerator LoadScene(string nextScene, Action onLoaded = null)
         {
             if (SceneManager.GetActiveScene().name == nextScene)
             { 
