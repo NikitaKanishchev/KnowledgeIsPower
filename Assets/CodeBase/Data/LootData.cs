@@ -1,4 +1,5 @@
 ﻿using System;
+using CodeBase.Enemy;
 
 namespace CodeBase.Data
 {
@@ -7,6 +8,7 @@ namespace CodeBase.Data
     {
         public int Collected;
         public Action Changed;
+        public LootPieceDataDictionary LootPiecesOnScene = new LootPieceDataDictionary();
 
         public void Collect(Loot loot)
         {

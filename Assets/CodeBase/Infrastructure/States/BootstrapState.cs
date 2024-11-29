@@ -18,6 +18,7 @@ namespace CodeBase.Infrastructure.States
         private const string Initial = "Initial";
         private readonly GameStateMachine _stateMachine;
         private readonly SceneLoader _sceneLoader;
+
         private readonly AllServices _services;
 
         public BootstrapState(GameStateMachine stateMachine, SceneLoader sceneLoader, AllServices allServices)
@@ -32,6 +33,9 @@ namespace CodeBase.Infrastructure.States
         public void Enter() =>
             _sceneLoader.Load(Initial, onLoaded: EnterLoadLevel);
 
+        private void EnterLoadLevel() =>
+            _stateMachine.Enter<LoadProgressState>();
+
         public void Exit()
         {
         }
@@ -43,7 +47,8 @@ namespace CodeBase.Infrastructure.States
 
             _services.RegisterSingle<IGameStateMachine>(_stateMachine);
 
-            _services.RegisterSingle<IAssetProvider>(new AssetProvider());
+            RegisterAssetProvider();
+
             _services.RegisterSingle<IInputService>(InputService());
             _services.RegisterSingle<IRandomService>(new RandomService());
             _services.RegisterSingle<IPersistentProgressService>(new PersistentProgressService());
@@ -63,12 +68,20 @@ namespace CodeBase.Infrastructure.States
                  _services.Single<IWindowService>()));
 
             _services.RegisterSingle<ISaveLoadService>(
-                new SaveLoadService(_services.Single<IPersistentProgressService>(), _services.Single<IGameFactory>()));
+                new SaveLoadService(_services.Single<IPersistentProgressService>(),
+                    _services.Single<IGameFactory>()));    
+        }
+
+        private void RegisterAssetProvider()
+        {
+            AssetProvider assetProvider = new AssetProvider();
+            _services.RegisterSingle<IAssetProvider>(assetProvider);
+            assetProvider.Initialize();
         }
 
         private void RegisterAdsService()
         {
-            var adsService = new AdsService();
+            IAdsService adsService = new AdsService();
             adsService.Initialize();
             _services.RegisterSingle<IAdsService>(adsService);
         }
@@ -79,9 +92,6 @@ namespace CodeBase.Infrastructure.States
             staticData.Load();
             _services.RegisterSingle(staticData);
         }
-
-        private void EnterLoadLevel() =>
-            _stateMachine.Enter<LoadProgressState>();
 
         private static IInputService InputService() =>
             Application.isEditor

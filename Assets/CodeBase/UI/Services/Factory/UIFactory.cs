@@ -2,11 +2,9 @@
 using CodeBase.Infrastructure.AssetManagement;
 using CodeBase.Infrastructure.Services.PersistentProgress;
 using CodeBase.Infrastructure.Services.StaticData;
-using CodeBase.Services.Input;
 using CodeBase.StaticData.Windows;
 using CodeBase.UI.Services.Windows;
 using CodeBase.UI.Windows;
-using CodeBase.UI.Windows.Shop;
 using UnityEngine;
 
 namespace CodeBase.UI.Services.Factory

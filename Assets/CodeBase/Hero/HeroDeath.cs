@@ -15,10 +15,10 @@ namespace CodeBase.Hero
         private bool _isDead;
 
         private void Start() =>
-            Health.HealtChanged += HelthChanged;
+            Health.HealthChanged += HelthChanged;
 
         private void OnDestroy() =>
-            Health.HealtChanged -= HelthChanged;
+            Health.HealthChanged -= HelthChanged;
 
         private void HelthChanged()
         {

@@ -12,7 +12,7 @@ namespace CodeBase.Hero
         public HeroAnimator Animator;
         private State _state;
         
-        public event Action HealtChanged;
+        public event Action HealthChanged;
 
         public float Current
         {
@@ -23,7 +23,7 @@ namespace CodeBase.Hero
                 {
                     _state.CurrentHP = value;
                     
-                    HealtChanged?.Invoke();
+                    HealthChanged?.Invoke();
                 }
             }
         }
@@ -37,7 +37,7 @@ namespace CodeBase.Hero
         public void LoadProgress(PlayerProgress progress)
         {
             _state = progress.HeroState;
-            HealtChanged?.Invoke();
+            HealthChanged?.Invoke();
         }
 
         public void UpdateProgress(PlayerProgress progress)

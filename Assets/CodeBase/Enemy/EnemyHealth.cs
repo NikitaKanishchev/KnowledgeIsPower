@@ -15,7 +15,7 @@ namespace CodeBase.Enemy
         [SerializeField] 
         private float max;
 
-        public event Action HealtChanged;
+        public event Action HealthChanged;
 
         public float Current
         {
@@ -35,7 +35,7 @@ namespace CodeBase.Enemy
 
             Animator.PlayHit();
 
-            HealtChanged?.Invoke();
+            HealthChanged?.Invoke();
         }
     }
 }

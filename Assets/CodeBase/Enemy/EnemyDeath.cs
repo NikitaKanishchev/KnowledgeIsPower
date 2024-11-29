@@ -15,10 +15,10 @@ namespace CodeBase.Enemy
         public event Action Happened;
 
         private void Start() =>
-            Health.HealtChanged += HealtChanged;
+            Health.HealthChanged += HealtChanged;
 
         private void OnDestroy() =>
-            Health.HealtChanged -= HealtChanged;
+            Health.HealthChanged -= HealtChanged;
 
         private void HealtChanged()
         {
@@ -28,7 +28,7 @@ namespace CodeBase.Enemy
 
         private void Die()
         {
-            Health.HealtChanged -= HealtChanged;
+            Health.HealthChanged -= HealtChanged;
 
             Animator.PlayDeath();
             SpawnDeathFX();

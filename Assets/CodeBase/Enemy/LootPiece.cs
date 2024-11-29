@@ -1,20 +1,24 @@
 ﻿using System.Collections;
 using CodeBase.Data;
+using CodeBase.Infrastructure.Services.PersistentProgress;
+using CodeBase.Logic;
 using TMPro;
 using UnityEngine;
 
 namespace CodeBase.Enemy
 {
-    public class LootPiece : MonoBehaviour
+    public class LootPiece : MonoBehaviour , ISavedProgress
     {
         public GameObject Skull;
         public GameObject PickupFxPrefab;
-        public TextMeshPro LootText;
         public GameObject PickupPopup;
-        
-        private Loot _loot;
-        private bool _picked;
+        public TextMeshPro LootText;
+
         private WorldData _worldData;
+        private Loot _loot;
+        
+        private string _id;
+        private bool _picked;
 
         public void Construct(WorldData worldData)
         {
@@ -26,7 +30,29 @@ namespace CodeBase.Enemy
             _loot = loot;
         }
 
-        private void OnTriggerEnter(Collider other) => Pickup();
+        private void Start() => 
+            _id = GetComponent<UniqueId>().Id;
+
+        private void OnTriggerEnter(Collider other)
+        {
+            if (!_picked)
+            {
+                _picked = true;
+                Pickup();
+            }
+        }
+
+        public void UpdateProgress(PlayerProgress progress)
+        {
+            if (_picked)
+                return;
+
+            LootPieceDataDictionary lootPiecesOnScene = progress.WorldData.LootData.LootPiecesOnScene;
+
+            if (!lootPiecesOnScene.Dictionary.ContainsKey(_id))
+                lootPiecesOnScene.Dictionary
+                    .Add(_id, new LootPieceData(transform.position.AsVectorData(), _loot));
+        }
 
         private void Pickup()
         {
@@ -61,6 +87,10 @@ namespace CodeBase.Enemy
         {
             LootText.text = $"{_loot.Value}";
             PickupPopup.SetActive(true);
+        }
+
+        public void LoadProgress(PlayerProgress progress)
+        {
         }
     }
 }

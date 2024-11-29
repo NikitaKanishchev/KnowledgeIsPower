@@ -12,7 +12,7 @@ namespace CodeBase.UI.Elements
         {
             _health = health;
 
-            _health.HealtChanged += UpdateHPBar;
+            _health.HealthChanged += UpdateHPBar;
         }
 
         private void Start()
@@ -26,7 +26,7 @@ namespace CodeBase.UI.Elements
         private void OnDestroy()
         {
             if (_health != null)
-                _health.HealtChanged -= UpdateHPBar;
+                _health.HealthChanged -= UpdateHPBar;
         }
 
         private void UpdateHPBar()

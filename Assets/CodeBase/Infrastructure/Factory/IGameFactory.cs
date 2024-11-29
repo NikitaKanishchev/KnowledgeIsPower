@@ -16,7 +16,8 @@ namespace CodeBase.Infrastructure.Factory
         GameObject CreateHero(Vector3 at);
         GameObject CreateHud();
         LootPiece CreateLoot();
-        void CreateSpawner(string spawnerId, Vector3 at, MonsterTypeId monsterTypeId);
+        void CreateSpawner(Vector3 at, string spawnerId, MonsterTypeId monsterTypeId);
+
         void CleanUp();
     }
 }
