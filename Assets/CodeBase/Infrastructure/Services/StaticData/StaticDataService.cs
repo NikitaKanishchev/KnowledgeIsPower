@@ -9,7 +9,7 @@ namespace CodeBase.Infrastructure.Services.StaticData
 {
     public class StaticDataService : IStaticDataService
     {
-        private const string StaticDataMonstersPath = "StaticData/Monsters";
+        private const string StaticDataMonstersPath = "Static Data/Monsters";
         private const string StaticDataLevelsPath = "Static Data/Levels";
         private const string StaticDataWindowPath = "Static Data/UI/WindowStaticData";
         

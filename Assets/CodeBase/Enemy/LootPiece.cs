@@ -20,15 +20,11 @@ namespace CodeBase.Enemy
         private string _id;
         private bool _picked;
 
-        public void Construct(WorldData worldData)
-        {
+        public void Construct(WorldData worldData) => 
             _worldData = worldData;
-        }
 
-        public void Initialize(Loot loot)
-        {
-            _loot = loot;
-        }
+        public void Initialize(Loot loot) => 
+                _loot = loot;
 
         private void Start() => 
             _id = GetComponent<UniqueId>().Id;
@@ -56,29 +52,36 @@ namespace CodeBase.Enemy
 
         private void Pickup()
         {
-            if(_picked)
-                return;
             
-            _picked = true;
-
             UpdateWorldData();
             HideSkull();
             PlayPickupFx();
             ShowText();    
             StartCoroutine(StartDestroyTimer());
+            
         }
 
-        private void UpdateWorldData() => 
+        private void UpdateWorldData()
+        {
+            UpdateCollectedLootAmount();
+            RemoveLootPieceFromSavedPieces();
+        }
+
+        private void UpdateCollectedLootAmount()
+        {
             _worldData.LootData.Collect(_loot);
+        }
+
+        private void RemoveLootPieceFromSavedPieces()
+        {
+            LootPieceDataDictionary savedLootPieces = _worldData.LootData.LootPiecesOnScene;
+
+            if (savedLootPieces.Dictionary.ContainsKey(_id))
+                savedLootPieces.Dictionary.Remove(_id);
+        }
 
         private void HideSkull() => 
             Skull.SetActive(false);
-
-        private IEnumerator StartDestroyTimer()
-        {
-            yield return new WaitForSeconds(1.5f);
-            Destroy(gameObject);
-        }
 
         private void PlayPickupFx() => 
             Instantiate(PickupFxPrefab, transform.position, Quaternion.identity);
@@ -87,6 +90,12 @@ namespace CodeBase.Enemy
         {
             LootText.text = $"{_loot.Value}";
             PickupPopup.SetActive(true);
+        }
+
+        private IEnumerator StartDestroyTimer()
+        {
+            yield return new WaitForSeconds(1.5f);
+            Destroy(gameObject);
         }
 
         public void LoadProgress(PlayerProgress progress)

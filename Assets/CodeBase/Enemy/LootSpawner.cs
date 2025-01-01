@@ -9,9 +9,9 @@ namespace CodeBase.Enemy
     {
         public EnemyDeath EnemyDeath;
         private IGameFactory _factory;
-        private IRandomService _random;
         private int _lootMin;
         private int _lootMax;
+        private IRandomService _random;
 
         public void Construct(IGameFactory factory, IRandomService random)
         {
@@ -24,21 +24,21 @@ namespace CodeBase.Enemy
             EnemyDeath.Happened += SpawnLoot;
         }
 
-        private void SpawnLoot()
+        private async void SpawnLoot()
         {
-            LootPiece loot = _factory.CreateLoot();
+            LootPiece loot = await _factory.CreateLoot();
             loot.transform.position = transform.position;
-            
             Loot lootItem = GenerateLoot();
             loot.Initialize(lootItem);
         }
 
         private Loot GenerateLoot()
         {
-            return new Loot
+            Loot loot = new Loot()
             {
                 Value = _random.Next(_lootMin, _lootMax)
             };
+            return loot;
         }
 
         public void SetLoot(int min, int max)

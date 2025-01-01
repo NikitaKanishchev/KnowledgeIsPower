@@ -75,8 +75,8 @@ namespace CodeBase.Infrastructure.States
         private void RegisterAssetProvider()
         {
             AssetProvider assetProvider = new AssetProvider();
-            _services.RegisterSingle<IAssetProvider>(assetProvider);
             assetProvider.Initialize();
+            _services.RegisterSingle<IAssetProvider>(assetProvider);
         }
 
         private void RegisterAdsService()

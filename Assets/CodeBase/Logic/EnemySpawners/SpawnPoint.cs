@@ -1,8 +1,6 @@
-﻿using System;
-using CodeBase.Data;
+﻿using CodeBase.Data;
 using CodeBase.Enemy;
 using CodeBase.Infrastructure.Factory;
-using CodeBase.Infrastructure.Services;
 using CodeBase.Infrastructure.Services.PersistentProgress;
 using CodeBase.StaticData;
 using UnityEngine;
@@ -13,40 +11,43 @@ namespace CodeBase.Logic.EnemySpawners
     {
         public MonsterTypeId MonsterTypeId;
 
-        private IGameFactory _factory;
-
         public string Id { get; set; }
-
-        private bool _slain;
-
+        
+        private IGameFactory _factory;
+        private bool Slane;
+        
+        private EnemyDeath _enemyDeath;
+        
         public void Construct(IGameFactory factory) =>
             _factory = factory;
 
         public void LoadProgress(PlayerProgress progress)
         {
-            if (!progress.KillData.ClearedSpawners.Contains(Id))
-                _slain = true;
+            if (progress.KillData.ClearedSpawners.Contains(Id))
+                Slane = true;
             else
                 Spawn();
         }
 
         public void UpdateProgress(PlayerProgress progress)
         {
-            if (_slain)
+            if (Slane)
                 progress.KillData.ClearedSpawners.Add(Id);
         }
 
-        private void Spawn()
+        private async void Spawn()
         {
-            _factory
-                .CreateMonster(MonsterTypeId, transform)
-                .GetComponent<EnemyDeath>()
-                .Happened += Slain;
+            GameObject monster = await _factory.CreateMonster(MonsterTypeId, transform);
+            _enemyDeath = monster.GetComponent<EnemyDeath>();
+            _enemyDeath.Happened += Slay;
         }
 
-        private void Slain()
+        private void Slay()
         {
-            _slain = true;
+            if (_enemyDeath != null)
+                _enemyDeath.Happened -= Slay;
+            
+            Slane = true;
         }
     }
 }

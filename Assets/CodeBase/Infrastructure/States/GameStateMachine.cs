@@ -39,7 +39,7 @@ namespace CodeBase.Infrastructure.States
 
         public void Enter<TState, TPayload>(TPayload payload) where TState : class, IPayloadedState<TPayload>
         {
-            TState state = ChangeState<TState>();
+            IPayloadedState<TPayload> state = ChangeState<TState>();
             state.Enter(payload);
         }
 

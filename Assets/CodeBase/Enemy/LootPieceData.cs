@@ -1,7 +1,9 @@
-﻿using CodeBase.Data;
+﻿using System;
+using CodeBase.Data;
 
 namespace CodeBase.Enemy
 {
+    [Serializable]
     public class LootPieceData
     {
         public Vector3Data Position;
