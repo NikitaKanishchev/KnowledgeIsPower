@@ -17,7 +17,7 @@ namespace CodeBase.Infrastructure.Factory
 {
     public class GameFactory : IGameFactory
     {
-        private readonly IAssetProvider _assets;
+        private readonly IAssets _assets;
         private readonly IStaticDataService _staticData;
 
         private readonly IPersistentProgressService _progressService;
@@ -29,7 +29,7 @@ namespace CodeBase.Infrastructure.Factory
         private GameObject Hero { get; set; }
 
         public GameFactory(
-            IAssetProvider assets,
+            IAssets assets,
             IStaticDataService staticData,
             IPersistentProgressService progressService,
             IWindowService windowService)
